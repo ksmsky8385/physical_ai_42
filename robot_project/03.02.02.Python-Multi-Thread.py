@@ -31,7 +31,7 @@ if __name__ == "__main__":
         for _ in range(3):  # 3회만 출력 후 종료 (실습 편의상)
             with data_lock:
                 print(f"[Main Control] Lidar: {robot_telemetry['lidar']:.2f}m, "
-                      f"Ultrasonic: {robot_telemetry['ultrasonic']:.2f}cm")
+                        f"Ultrasonic: {robot_telemetry['ultrasonic']:.2f}cm")
             time.sleep(1.0)
     except KeyboardInterrupt:
         print("\n로봇 제어 프로그램을 종료합니다.")

@@ -21,12 +21,25 @@ import random
 def producer(q, stop_event):
     """0.1초마다 랜덤 센서 값을 생성하여 Queue에 넣는 스레드"""
     # TODO: 구현하세요
-    pass
+    while not stop_event.is_set():
+        try:
+            value = random.random()
+            q.put(value)
+        except:
+            continue
+        time.sleep(0.1)
 
 def consumer(q, stop_event):
     """Queue에서 값을 꺼내 처리 결과를 출력하는 스레드"""
     # TODO: 구현하세요
-    pass
+    while not stop_event.is_set():
+        try:
+            value = q.get(timeout=1.0)
+            if value:
+                print(value)
+        except:
+            continue
+        time.sleep(0.01)
 
 if __name__ == "__main__":
     sensor_queue = queue.Queue()
