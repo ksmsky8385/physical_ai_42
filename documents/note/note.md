@@ -27,3 +27,7 @@ ros2 run hello_ros2_pkg turtle_square
 ros2 pkg create --build-type ament_cmake hello_cmake_pkg --dependencies rclcpp std_msgs
 
 ```
+
+``` shell
+ssh tme@192.168.1.189
+```
