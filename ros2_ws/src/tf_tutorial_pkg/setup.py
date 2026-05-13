@@ -1,8 +1,9 @@
 import os
 from glob import glob
+
 from setuptools import find_packages, setup
 
-package_name = 'camera_pkg'
+package_name = 'tf_tutorial_pkg'
 
 setup(
     name=package_name,
@@ -12,7 +13,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -27,10 +28,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'img_pub = camera_pkg.image_publisher:main',
-            'img_canny = camera_pkg.image_canny:main',
-            'img_yolo = camera_pkg.image_yolo:main',
-            'yolo_pub = camera_pkg.yolo_publisher:main',
+            'odom_sim = tf_tutorial_pkg.odom_simulator:main',
+            'tf_listener = tf_tutorial_pkg.tf_listener:main',
+            'tf_yolo = tf_tutorial_pkg.tf_yolo_broadcaster:main',
         ],
     },
 )

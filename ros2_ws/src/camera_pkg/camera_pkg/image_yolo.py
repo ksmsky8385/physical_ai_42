@@ -28,6 +28,7 @@ class YoloProcessor(Node):
 
         # 퍼블리시
         self.pub.publish(self.bridge.cv2_to_imgmsg(annotated, 'bgr8'))
+        # self.get_logger().info('YOLO 발행 중...')
 
 def main(args=None):
     rclpy.init(args=args)
