@@ -1,8 +1,6 @@
-import os
-from glob import glob
 from setuptools import find_packages, setup
 
-package_name = 'tf_tutorial_pkg'
+package_name = 'my_robot_tools'
 
 setup(
     name=package_name,
@@ -12,7 +10,6 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -27,9 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'odom_sim = tf_tutorial_pkg.odom_simulator:main',
-            'tf_listener = tf_tutorial_pkg.tf_listener:main',
-            'tf_yolo = tf_tutorial_pkg.tf_yolo_broadcaster:main',
+            'lidar_navigator = my_robot_tools.lidar_navigator:main',
         ],
     },
 )
