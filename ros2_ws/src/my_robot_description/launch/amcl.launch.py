@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     declare_world_arg = DeclareLaunchArgument(
         'world',
-        default_value='room_world.world',
+        default_value='amcl_world.world',
         description='Gazebo world file name'
     )
     declare_map_arg = DeclareLaunchArgument(
