@@ -13,6 +13,11 @@ def generate_launch_description():
         default_value='room_world.world',
         description='Gazebo world file name'
     )
+    declare_map_arg = DeclareLaunchArgument(
+        'map_yaml',
+        default_value='/home/ksm/workspace/physical_ai_42/ros2_ws/room_map.yaml',
+        description='Map file name'
+    )
 
     pkg_dir = get_package_share_directory('my_robot_description')
     xacro_file = os.path.join(pkg_dir, 'urdf', 'turtlebot.xacro')
@@ -23,28 +28,9 @@ def generate_launch_description():
 
     rviz_args = ['-d', rviz_file] if os.path.exists(rviz_file) else []
 
-    # SLAM Toolbox 추가
-    slam_toolbox_dir = get_package_share_directory('slam_toolbox')
-    slam_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            os.path.join(
-                slam_toolbox_dir,
-                'launch',
-                'online_async_launch.py'
-            )
-        ]),
-        launch_arguments={
-            'use_sim_time': 'True',
-            'slam_params_file': os.path.join(
-                pkg_dir,
-                'config',
-                'slam_param.yaml'
-            )
-        }.items()
-    )
-
     return LaunchDescription([
         declare_world_arg,
+        declare_map_arg,
         ExecuteProcess(
             cmd=['gazebo', '--verbose', world_file,
                  '-s', 'libgazebo_ros_init.so',
@@ -66,10 +52,10 @@ def generate_launch_description():
                        '-entity', 'turtlebot', '-z', '0.3'],
             output='screen'
         ),
-        slam_launch,
         Node(
             package='rviz2',
             executable='rviz2',
             arguments=rviz_args,
+            parameters=[{'use_sim_time': True}],
         ),
     ])

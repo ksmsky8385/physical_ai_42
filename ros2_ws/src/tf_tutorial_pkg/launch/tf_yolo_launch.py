@@ -37,7 +37,7 @@ def generate_launch_description():
         Node(
             package='rviz2',
             executable='rviz2',
-            arguments=['-d', '/home/cchyun/tf_tutorial.rviz'],
+            arguments=['-d', '/home/ksm/tf_tutorial.rviz'],
             condition=IfCondition(LaunchConfiguration('use_rviz'))
         ),
     ])
