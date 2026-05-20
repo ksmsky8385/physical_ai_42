@@ -22,7 +22,7 @@ def generate_launch_description():
     pkg_dir = get_package_share_directory('my_robot_description')
     xacro_file = os.path.join(pkg_dir, 'urdf', 'turtlebot.xacro')
     world_file = PathJoinSubstitution([pkg_dir, 'worlds', LaunchConfiguration('world')])
-    rviz_file = os.path.join(pkg_dir, 'rviz', 'slam.rviz')
+    rviz_file = os.path.join(pkg_dir, 'rviz', 'amcl.rviz')
 
     robot_description = Command(['xacro ', xacro_file])
 
