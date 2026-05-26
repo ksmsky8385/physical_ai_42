@@ -11,7 +11,7 @@ find_package(urdf REQUIRED)
 find_package(xacro REQUIRED)
 
 install(
-  DIRECTORY urdf launch rviz config worlds
+  DIRECTORY urdf launch rviz config worlds map
   DESTINATION share/${PROJECT_NAME}
 )
 

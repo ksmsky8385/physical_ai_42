@@ -10,19 +10,20 @@ from launch_ros.actions import Node
 def generate_launch_description():
     declare_world_arg = DeclareLaunchArgument(
         'world',
-        default_value='amcl_world.world',
+        default_value='slam_world.world',
         description='Gazebo world file name'
     )
     declare_map_arg = DeclareLaunchArgument(
         'map_yaml',
-        default_value='/home/ksm/workspace/physical_ai_42/ros2_ws/map/room_map.yaml',
+        default_value='/home/ksm/workspace/physical_ai_42/ros2_ws/slam_map.yaml',
         description='Map file name'
     )
 
     pkg_dir = get_package_share_directory('my_robot_description')
     xacro_file = os.path.join(pkg_dir, 'urdf', 'turtlebot.xacro')
     world_file = PathJoinSubstitution([pkg_dir, 'worlds', LaunchConfiguration('world')])
-    rviz_file = os.path.join(pkg_dir, 'rviz', 'amcl.rviz')
+    rviz_file = os.path.join(pkg_dir, 'rviz', 'nav2.rviz')
+    amcl_file = os.path.join(pkg_dir, 'config', 'amcl_params.yaml')
 
     robot_description = Command(['xacro ', xacro_file])
 
@@ -51,6 +52,31 @@ def generate_launch_description():
             arguments=['-topic', 'robot_description',
                        '-entity', 'turtlebot', '-z', '0.3'],
             output='screen'
+        ),
+        Node(
+            package='nav2_map_server',
+            executable='map_server',
+            parameters=[{
+                'yaml_filename': LaunchConfiguration('map_yaml'),
+                'use_sim_time': True,
+            }],
+        ),
+        Node(
+            package='nav2_amcl',
+            executable='amcl',
+            parameters=[
+                amcl_file,
+                {'use_sim_time': True}
+            ],
+        ),
+        Node(
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            parameters=[{
+                'node_names': ['map_server', 'amcl'],
+                'autostart': True,
+                'use_sim_time': True,
+            }],
         ),
         Node(
             package='rviz2',

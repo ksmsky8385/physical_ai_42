@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'lidar_navigator = my_robot_tools.lidar_navigator:main',
+			"pid_controller = my_robot_tools.pid_arm_control:main",
         ],
     },
 )
